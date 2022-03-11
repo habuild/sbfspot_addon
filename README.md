@@ -123,5 +123,5 @@ SMA, Speedwire are registered trademarks of [SMA Solar Technology AG](http://www
 
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-production%20testing-red.svg
-[release-shield]: https://img.shields.io/badge/version-v0.0.1-blue.svg
+[release-shield]: https://img.shields.io/badge/version-2022.repo-blue.svg
 [release]: https://github.com/hassio-addons/addon-ssh/tree/2022.repo
