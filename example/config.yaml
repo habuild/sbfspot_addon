@@ -9,10 +9,9 @@ arch:
   - armv7
   - aarch64
   - amd64
-  - i386
 init: false
 options:
   message: "Hello world..."
 schema:
   message: "str?"
-image: "ghcr.io/habuild/sbfspot_addon/{arch}-addon-example"
+image: "ghcr.io/habuild/{arch}-addon-example"
