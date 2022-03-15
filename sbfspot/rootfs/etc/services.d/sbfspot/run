@@ -14,7 +14,8 @@ echo 'Show all services.'
 rc-status -s
 
 # --- GENERATE CONFIG --
-/generateConfig.sh SBFspot.cfg SBFspotUpload.cfg
+echo "PWD is current directory $(pwd)"
+./generateConfig.sh SBFspot.cfg SBFspotUpload.cfg
 
 chmod a+x SBFspot.cfg SBFspotUpload.cfg
 
