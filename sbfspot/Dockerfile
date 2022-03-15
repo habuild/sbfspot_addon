@@ -62,7 +62,8 @@ COPY SBFspotUploadDaemon.service /etc/init.d/SBFspotUploadDaemon.service
 # load volume
 #VOLUME [ "/sys/fs/cgroup" ] Not needed and doesn't get removed automatically.
 
-RUN chmod a+x /run.sh /generateConfig.sh /openrc-restart-crashed.sh /SBFspot /SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service
+RUN chmod a+x /generateConfig.sh /openrc-restart-crashed.sh /SBFspot /SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service
+# /run.sh chmod not needed file moved to run
 
 # --- install cron ---
 # set shell
