@@ -52,8 +52,8 @@ RUN cp /tmp/SBFspot/mysql/bin/SBFspot /
 RUN cp /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /
 RUN cp /tmp/SBFspot/date_time_zonespec.csv /
 RUN cp /tmp/SBFspot/TagList* /
-RUN cp /tmp/SBFspot/SBFspot.cfg /
-RUN cp /tmp/SBFspot/SBFspotUpload.cfg /
+RUN cp /tmp/SBFspot.cfg /
+RUN cp /tmp/SBFspotUpload.cfg /
 
 
 COPY generateConfig.sh /
