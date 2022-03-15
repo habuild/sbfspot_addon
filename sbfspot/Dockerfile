@@ -17,7 +17,7 @@ COPY rootfs /
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # install requirements
-RUN apk update && apk upgrade && apk add --no-cache git g++ make mysql-dev bluez-dev boost-dev mosquitto-clients openrc
+RUN apk update && apk upgrade && apk add --no-cache git g++ make mysql-dev bluez-dev boost-dev libcurl mosquitto-clients openrc
 
 # openrc changes
 RUN \
@@ -53,7 +53,7 @@ RUN \
 # runtinme container   
 FROM $BUILD_FROM
 
-RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients
+RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs mosquitto-clients
 
 COPY --from=builder rootfs /
 COPY --from=builder /tmp/SBFspot/mysql/bin/SBFspot /tmp/SBFspot/mysql/bin/SBFspot
