@@ -57,7 +57,7 @@ run cp /tmp/SBFspot/TagList* /
 COPY generateConfig.sh /
 COPY openrc-restart-crashed.sh /
 COPY SBFspotUploadDaemon.service /etc/init.d/SBFspotUploadDaemon.service
-COPY run.sh /
+# COPY run.sh /
 
 # load volume
 #VOLUME [ "/sys/fs/cgroup" ] Not needed and doesn't get removed automatically.
