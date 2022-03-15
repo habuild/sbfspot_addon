@@ -110,4 +110,4 @@ schema:
   PVoutput_SID: "str"
   PVoutput_Key: "str"
   MQTT_ENABLE: "int"
-image: "ghcr.io/habuild/{arch}-sbfspot"
+image: "ghcr.io/habuild/{arch}-addon-sbfspot"
