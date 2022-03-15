@@ -14,7 +14,7 @@ echo 'Show all services.'
 rc-status -s
 
 # --- GENERATE CONFIG --
-./generateConfig.sh SBFspot.cfg SBFspotUpload.cfg
+./generateConfig.sh SBFspot.default.cfg SBFspotUpload.default.cfg
 
 # ---- RUN ----
 # start service
