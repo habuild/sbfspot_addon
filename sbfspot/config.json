@@ -5,8 +5,6 @@
   "description": "Manage SBFspot with a simple interface",
   "url": "https://github.com/habuild/sbfspot_addon/tree/main/sbfspot",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
-  "startup": "application",
-  "boot": "auto",
   "init": false,
   "host_network": true,
   "privileged": ["SYS_MODULE"],
