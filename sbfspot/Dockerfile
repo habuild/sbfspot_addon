@@ -53,7 +53,7 @@ RUN \
 # runtinme container   
 FROM $BUILD_FROM
 
-RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs mosquitto-clients
+RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients
 
 COPY --from=builder rootfs /
 COPY --from=builder /tmp/SBFspot/mysql/bin/SBFspot /tmp/SBFspot/mysql/bin/SBFspot
