@@ -4,16 +4,26 @@
 # s6-overlay docs: https://github.com/just-containers/s6-overlay
 # ==============================================================================
 
-# Add your code here
+#!/bin/sh
+set -e
 
-# Declare variables
-declare message
+echo 'Show all runlevels and their services.'
+rc-status -a
 
-## Get the 'message' key from the user config options.
-message=$(bashio::config 'message')
+echo 'Show all services.'
+rc-status -s
 
-## Print the message the user supplied, defaults to "Hello World..."
-bashio::log.info "${message:="Hello World..."}"
+# --- GENERATE CONFIG --
+./generateConfig.sh SBFspot.cfg SBFspotUpload.cfg
 
-## Run your program
-# exec my_program --with-params
+# ---- RUN ----
+# start service
+echo 'Starting daemon'
+rc-service SBFspotUploadDaemon.service start
+
+# cron
+echo 'Starting cron in foreground'
+/usr/sbin/crond -f
+
+# echo 'Starting daemon'
+# ./SBFspotUploadDaemon
