@@ -11,6 +11,8 @@ RUN \
 ENV LANG C.UTF-8
 ENV MQTT_ENABLE 1
 
+# Copy root filesystem
+COPY rootfs /
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -34,6 +36,7 @@ RUN \
     # can't do cgroups
         sed -i 's/cgroup_add_service /# cgroup_add_service /g' /lib/rc/sh/openrc-run.sh
 
+
 RUN rc-status
 RUN mkdir -p /run/openrc && touch /run/openrc/softlevel
 
@@ -53,16 +56,13 @@ RUN cp /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /
 RUN cp /tmp/SBFspot/date_time_zonespec.csv /
 RUN cp /tmp/SBFspot/TagList* /
 
-COPY SBFspot.default.cfg /
-COPY SBFspotUpload.default.cfg /
+#COPY SBFspot.default.cfg /
+#COPY SBFspotUpload.default.cfg /
 
-COPY generateConfig.sh /
-COPY openrc-restart-crashed.sh /
-COPY SBFspotUploadDaemon.service /etc/init.d/SBFspotUploadDaemon.service
+#COPY generateConfig.sh /
+#COPY openrc-restart-crashed.sh /
+#COPY SBFspotUploadDaemon.service /etc/init.d/SBFspotUploadDaemon.service
 # COPY run.sh /
-
-# load volume
-#VOLUME [ "/sys/fs/cgroup" ] Not needed and doesn't get removed automatically.
 
 RUN chmod a+x /generateConfig.sh /openrc-restart-crashed.sh /SBFspot /SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /SBFspot.default.cfg /SBFspotUpload.default.cfg
 # /run.sh chmod not needed file moved to run
@@ -102,6 +102,3 @@ LABEL \
 
 
 #CMD [ "/run.sh" ] not needed with rootfs/etc/init.d/{slug}run
-
-# Copy root filesystem
-# COPY rootfs /
