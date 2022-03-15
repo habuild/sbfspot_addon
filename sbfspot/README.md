@@ -5,8 +5,8 @@
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg
 
-![Version](https://img.shields.io/badge/dynamic/yaml?label=Version&query=%24.version&url=https%3A%2F%2Fraw.githubusercontent.com%2Fhabuild%2Fsbfspot_addon%2Fmaster%2Fsbfspot%2Fconfig.yaml)
-![Arch](https://img.shields.io/badge/dynamic/yaml?color=success&label=Arch&query=%24.arch&url=https%3A%2F%2Fraw.githubusercontent.com%2Fhabuild%2Fsbfspot_addon%2Fmaster%2Fsbfspot%2Fconfig.yaml)
+![Version](https://img.shields.io/badge/dynamic/json?label=Version&query=%24.version&url=https%3A%2F%2Fraw.githubusercontent.com%2Fhabuild%2Fsbfspot_addon%2Fmaster%2Fsbfspot%2Fconfig.json)
+![Arch](https://img.shields.io/badge/dynamic/json?color=success&label=Arch&query=%24.arch&url=https%3A%2F%2Fraw.githubusercontent.com%2Fhabuild%2Fsbfspot_addon%2Fmaster%2Fsbfspot%2Fconfig.json)
 
 This [home assistant](https://www.home-assistant.io/getting-started/) add-on provides the installation, configuration, and integration for the **Bluetooth** version of [SBFspot 3.9.3](https://github.com/habuild/sbfspot_addon/tree/master/sbfspot).
 
@@ -27,7 +27,7 @@ Download and import either [No Drop DB create](https://github.com/habuild/sbfspo
 
 **MQTT_PublisherArgs:** **'-h Your_MQTT_Hostname -u Your_MQTT_Username -P Your_MQTT_password -t {topic} -m "{{message}}" -d -r'**
 
-**-d** is for MQTT debug in log.
+**-d** is for MQTT debug in log. 
 
 **-r** is to retain messages.
 
@@ -37,7 +37,9 @@ can be copy/pasted as [Example Config](https://github.com/habuild/sbfspot_addon/
 ![Example Options](https://raw.githubusercontent.com/habuild/sbfspot_addon/master/.images/Example_config_png.PNG) 
 
 ### Data paths 
-In docker the /data/ path arrives at /usr/share/hassio/addons/data/a51a23d8_sbfspot	on the host. This needs to be corrected, I am not sure if this will work on a standard supervisor installation. testing required. Need to grep the upload log file back into HA log. The log file here may need to be cleaned up manually.
+In docker the /data/ path arrives at /usr/share/hassio/addons/data/slug#_sbfspot on the host. 
+### Upload logs
+TODO Need to grep? or bashio the upload log file back into HA log. The log file here may need to be cleaned up manually.
 
 ### **Link to SBFspot Documentation**
 Refer to the [Wiki](https://github.com/SBFspot/SBFspot/wiki) for documentation and FAQ.
