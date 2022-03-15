@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM $BUILD_FROM AS builder
 
 # Execute during the build of the image
 ARG TEMPIO_VERSION BUILD_ARCH
@@ -17,7 +17,7 @@ COPY rootfs /
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # install requirements
-RUN apk update && apk upgrade && apk add --no-cache jq git g++ make musl-dev mysql-dev bluez-dev boost boost-dev curl-dev mosquitto-clients openrc
+RUN apk update && apk upgrade && apk add --no-cache git g++ make mysql-dev bluez-dev boost-dev mosquitto-clients openrc
 
 # openrc changes
 RUN \
@@ -49,6 +49,17 @@ RUN \
     && cd .. \
     && cd SBFspotUploadDaemon \
     && make mysql
+    
+# runtinme container   
+FROM $BUILD_FROM
+
+RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs mosquitto-clients
+
+COPY --from=builder rootfs /
+COPY --from=builder /tmp/SBFspot/mysql/bin/SBFspot /tmp/SBFspot/mysql/bin/SBFspot
+COPY --from=builder /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon
+COPY --from=builder /tmp/SBFspot/date_time_zonespec.csv /tmp/SBFspot/date_time_zonespec.csv
+COPY --from=builder /tmp/SBFspot/TagList* /tmp/SBFspot/TagList*
 
 # Copy data for add-on
 RUN cp /tmp/SBFspot/mysql/bin/SBFspot /
