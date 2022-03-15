@@ -59,7 +59,7 @@ COPY rootfs /
 COPY --from=builder /tmp/SBFspot/mysql/bin/SBFspot /tmp/SBFspot/mysql/bin/SBFspot
 COPY --from=builder /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon
 COPY --from=builder /tmp/SBFspot/date_time_zonespec.csv /tmp/SBFspot/date_time_zonespec.csv
-COPY --from=builder /tmp/SBFspot/TagList* /tmp/SBFspot/TagList*
+COPY --from=builder /tmp/SBFspot/TagList* /tmp/SBFspot/
 
 # Copy data for add-on
 RUN cp /tmp/SBFspot/mysql/bin/SBFspot /
