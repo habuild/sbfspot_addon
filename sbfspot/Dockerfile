@@ -53,6 +53,11 @@ RUN \
 # runtinme container   
 FROM $BUILD_FROM
 
+ARG TEMPIO_VERSION BUILD_ARCH
+RUN \
+    curl -sSLf -o /usr/bin/tempio \
+    "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}"
+
 RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients openrc
 
 COPY rootfs /
