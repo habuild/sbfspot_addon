@@ -37,7 +37,7 @@ RUN \
 RUN rc-status
 RUN mkdir -p /run/openrc && touch /run/openrc/softlevel
 
-# download and buid SBFspot
+# download and build SBFspot
 RUN \
     cd /tmp \
     && git clone https://github.com/habuild/SBFspot.git . \
@@ -51,7 +51,9 @@ RUN \
 RUN cp /tmp/SBFspot/mysql/bin/SBFspot /
 RUN cp /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /
 RUN cp /tmp/SBFspot/date_time_zonespec.csv /
-run cp /tmp/SBFspot/TagList* /
+RUN cp /tmp/SBFspot/TagList* /
+RUN cp /tmp/SBFspot/SBFspot.cfg /
+RUN cp /tmp/SBFspot/SBFspotUpload.cfg /
 
 
 COPY generateConfig.sh /
@@ -62,7 +64,7 @@ COPY SBFspotUploadDaemon.service /etc/init.d/SBFspotUploadDaemon.service
 # load volume
 #VOLUME [ "/sys/fs/cgroup" ] Not needed and doesn't get removed automatically.
 
-RUN chmod a+x /generateConfig.sh /openrc-restart-crashed.sh /SBFspot /SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service
+RUN chmod a+x /generateConfig.sh /openrc-restart-crashed.sh /SBFspot /SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /SBFspot.cfg /SBFspotUpload.cfg
 # /run.sh chmod not needed file moved to run
 
 # --- install cron ---
@@ -102,4 +104,4 @@ LABEL \
 #CMD [ "/run.sh" ] not needed with rootfs/etc/init.d/{slug}run
 
 # Copy root filesystem
-COPY rootfs /
+# COPY rootfs /
