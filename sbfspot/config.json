@@ -107,6 +107,5 @@
         "PVoutput_Key": "str",
         "MQTT_ENABLE": "int"
   },
-  "image": "ghcr.io/habuild/{arch}-addon-sbfspot"
+  "image": "ghcr.io/habuild/{arch}-addon-sbfspot-testbuild"
 }
-
