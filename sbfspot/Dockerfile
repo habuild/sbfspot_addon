@@ -38,8 +38,10 @@ RUN \
     curl -sSLf -o /usr/bin/tempio \
     "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}"
 
-RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients openrc
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients openrc
+COPY rootfs /
 # openrc changes
 RUN \
     # Tell openrc its running inside a container, till now that has meant LXC
@@ -61,7 +63,7 @@ RUN rc-status
 RUN mkdir -p /run/openrc && touch /run/openrc/softlevel
 
 # Copy data for add-on
-COPY rootfs /
+
 COPY --from=builder /tmp/SBFspot/mysql/bin/SBFspot /tmp/SBFspot/mysql/bin/SBFspot
 COPY --from=builder /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon
 COPY --from=builder /tmp/SBFspot/date_time_zonespec.csv /tmp/SBFspot/date_time_zonespec.csv
@@ -73,16 +75,8 @@ RUN cp /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /
 RUN cp /tmp/SBFspot/date_time_zonespec.csv /
 RUN cp /tmp/SBFspot/TagList* /
 
-#COPY SBFspot.default.cfg /
-#COPY SBFspotUpload.default.cfg /
-
-#COPY generateConfig.sh /
-#COPY openrc-restart-crashed.sh /
-#COPY SBFspotUploadDaemon.service /etc/init.d/SBFspotUploadDaemon.service
-# COPY run.sh /
-
 RUN chmod a+x /generateConfig.sh /openrc-restart-crashed.sh /SBFspot /SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /SBFspot.default.cfg /SBFspotUpload.default.cfg
-# /run.sh chmod not needed file moved to run
+
 
 # --- install cron ---
 # set shell
@@ -94,7 +88,7 @@ RUN echo '55 05 * * *       /SBFspot -v -sp0 -ad0 -am1 -ae1 -finq > /dev/stdout'
 # openrc restart crashed services
 RUN echo '*/15 * * * *       /openrc-restart-crashed.sh -- SBFspotUploadDaemon.service > /dev/stdout' >> /etc/crontabs/root
 # openrc status logging
-##RUN echo '*/5 * * * *       rc-status -s > /dev/stdout' >> /etc/crontabs/root
+RUN echo '*/5 * * * *       rc-status -s > /dev/stdout' >> /etc/crontabs/root
 
 # install service
 RUN rc-update add SBFspotUploadDaemon.service default
@@ -102,12 +96,12 @@ RUN rc-update add SBFspotUploadDaemon.service default
 # Labels
 LABEL \
     io.hass.name="SBFspot" \
-    io.hass.description="SBFspot, formerly known as SMAspot, is an open source project to get actual and archive data out of an SMA® inverter over Bluetooth or Ethernet (Speedwire®)" \
+    io.hass.description="Home Assitant addon for Bluetooth SBFspot, is an open source project to get actual and archive data out of an SMA® inverter over Bluetooth or Ethernet (Speedwire®)" \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
     maintainer="Hasqt <https://community.home-assistant.io/u/hasqt>" \
-    org.label-schema.description="SBFspot, formerly known as SMAspot, is an open source project to get actual and archive data out of an SMA® inverter over Bluetooth or Ethernet (Speedwire®)" \
+    org.label-schema.description="Home Assitant addon for Bluetooth SBFspot, is an open source project to get actual and archive data out of an SMA® inverter over Bluetooth or Ethernet (Speedwire®)" \
     org.label-schema.build-date=${BUILD_DATE} \
     org.label-schema.name="SBFspot" \
     org.label-schema.schema-version="1.0" \
