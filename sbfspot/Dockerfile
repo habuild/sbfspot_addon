@@ -64,18 +64,20 @@ RUN mkdir -p /run/openrc && touch /run/openrc/softlevel
 
 # Copy data for add-on
 
+RUN mkdir -p /etc/sbfspot
+
 COPY --from=builder /tmp/SBFspot/mysql/bin/SBFspot /tmp/SBFspot/mysql/bin/SBFspot
 COPY --from=builder /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon
 COPY --from=builder /tmp/SBFspot/date_time_zonespec.csv /tmp/SBFspot/date_time_zonespec.csv
 COPY --from=builder /tmp/SBFspot/TagList* /tmp/SBFspot/
 
 
-RUN cp /tmp/SBFspot/mysql/bin/SBFspot /
-RUN cp /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /
-RUN cp /tmp/SBFspot/date_time_zonespec.csv /
-RUN cp /tmp/SBFspot/TagList* /
+RUN cp /tmp/SBFspot/mysql/bin/SBFspot /etc/sbfspot
+RUN cp /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /etc/sbfspot
+RUN cp /tmp/SBFspot/date_time_zonespec.csv /etc/sbfspot
+RUN cp /tmp/SBFspot/TagList* /etc/sbfspot
 
-RUN chmod a+x /generateConfig.sh /openrc-restart-crashed.sh /SBFspot /SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /SBFspot.default.cfg /SBFspotUpload.default.cfg
+RUN chmod a+x /generateConfig.sh /openrc-restart-crashed.sh /etc/sbfspot/SBFspot /etc/sbfspot/SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /SBFspot.default.cfg /SBFspotUpload.default.cfg
 
 
 # --- install cron ---
