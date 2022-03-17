@@ -94,7 +94,7 @@ RUN echo '55 05 * * *       /SBFspot -v -sp0 -ad0 -am1 -ae1 -finq > /dev/stdout'
 # openrc restart crashed services
 RUN echo '*/15 * * * *       /openrc-restart-crashed.sh -- SBFspotUploadDaemon.service > /dev/stdout' >> /etc/crontabs/root
 # openrc status logging
-RUN echo '*/5 * * * *       rc-status -s > /dev/stdout' >> /etc/crontabs/root
+##RUN echo '*/5 * * * *       rc-status -s > /dev/stdout' >> /etc/crontabs/root
 
 # install service
 RUN rc-update add SBFspotUploadDaemon.service default
