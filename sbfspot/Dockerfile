@@ -109,10 +109,10 @@ LABEL \
     org.label-schema.build-date=${BUILD_DATE} \
     org.label-schema.name="SBFspot" \
     org.label-schema.schema-version="1.0" \
-    org.label-schema.url="https://github.com/habuild/hassio-addons/tree/master/sbfspot" \
-    org.label-schema.usage="https://github.com/habuild/hassio-addons/tree/master/sbfspot/README.md" \
+    org.label-schema.url="https://github.com/habuild/sbfspot_addon/tree/main/sbfspot" \
+    org.label-schema.usage="https://github.com/habuild/sbfspot_addon/tree/main/sbfspot/README.md" \
     org.label-schema.vcs-ref=${BUILD_REF} \
-    org.label-schema.vcs-url="https://github.com/habuild/hassio-addons" \
+    org.label-schema.vcs-url="https://github.com/habuild/sbfspot_addon" \
     org.label-schema.vendor="Hasqt"
 
 
