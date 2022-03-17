@@ -79,7 +79,7 @@ RUN cp /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /etc/sbfspot
 RUN cp /tmp/SBFspot/date_time_zonespec.csv /etc/sbfspot
 RUN cp /tmp/SBFspot/TagList* /etc/sbfspot
 
-RUN chmod a+x /generateConfig.sh /openrc-restart-crashed.sh /etc/sbfspot/SBFspot /etc/sbfspot/SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /etc/sbfspot/SBFspot.default.cfg /etc/sbfspot/SBFspotUpload.default.cfg
+RUN chmod a+x /etc/sbfspot/generateConfig.sh /etc/sbfspot/openrc-restart-crashed.sh /etc/sbfspot/SBFspot /etc/sbfspot/SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /etc/sbfspot/SBFspot.default.cfg /etc/sbfspot/SBFspotUpload.default.cfg
 
 
 # --- install cron ---
