@@ -15,11 +15,9 @@ rc-status -s
 
 # --- GENERATE CONFIG --
 echo "PWD is current directory $(pwd)"
-cd /
+
 echo "PWD is current directory $(pwd)"
 ./generateConfig.sh SBFspot.cfg SBFspotUpload.cfg
-
-#chmod a+x SBFspot.cfg SBFspotUpload.cfg
 
 # ---- RUN ----
 # start service
