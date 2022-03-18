@@ -2,8 +2,8 @@
 
 description="SBFspot upload daemon"
 #pidfile="/run/SBFspotUploadDaemon.pid"
-command="/SBFspotUploadDaemon"
-command_opts=" -c /SBFspotUpload.cfg"
+command="/etc/sbfspot/SBFspotUploadDaemon"
+command_opts=" -c /data/sbfspot/SBFspotUpload.cfg"
 
 depend() {
     need net
