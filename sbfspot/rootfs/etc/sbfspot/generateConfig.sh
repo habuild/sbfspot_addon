@@ -303,4 +303,4 @@ EOL
 
 # create folders
 mkdir -p $CONFIG_OUTPUTPATH
-#mkdir -p $CONFIG_LOGDIR # log here instead > /dev/console >> /proc/1/fd/1
+#mkdir -p $CONFIG_LOGDIR # log here instead > /dev/stdout >> /proc/1/fd/1
