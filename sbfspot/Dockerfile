@@ -44,9 +44,11 @@ RUN \
     cd /tmp \
     && git clone https://github.com/sbfspot/SBFspot.git . \
     && cd SBFspot \
+    && sed -i s/mariadbclient/mariadb/ makefile \
     && make mariadb \
     && cd .. \
     && cd SBFspotUploadDaemon \
+    &&sed -i s/mariadbclient/mariadb/ makefile \
     && make mariadb
     
 # runtinme container   
