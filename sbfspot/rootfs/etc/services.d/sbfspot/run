@@ -19,6 +19,7 @@ cd /
 cd /etc/sbfspot
 echo "PWD is current directory $(pwd)"
 ./generateConfig.sh SBFspot.cfg SBFspotUpload.cfg /etc/sbfspot
+cd /
 
 # ---- RUN ----
 # start service
