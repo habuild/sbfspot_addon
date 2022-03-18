@@ -1,7 +1,11 @@
 CFG_PATH=$1
 CFG_PATH_UPLOAD=$2
 CONFIG_OUTPUTPATH=$3
-CONFIG_PATH=/data/options.json
+CONFIG_PATH=/data//sbfspot/options.json
+
+# create folders
+mkdir -p $CONFIG_OUTPUTPATH
+#mkdir -p $CONFIG_LOGDIR # log here instead > /dev/stdout >> /proc/1/fd/1
 
 echo "Generating $CFG_PATH & $CFG_PATH_UPLOAD"
 
@@ -300,7 +304,3 @@ SQL_Password=$CONFIG_SQL_PASSWORD
 EOL
 
 #cat $CFG_PATH_UPLOAD
-
-# create folders
-mkdir -p $CONFIG_OUTPUTPATH
-#mkdir -p $CONFIG_LOGDIR # log here instead > /dev/stdout >> /proc/1/fd/1
