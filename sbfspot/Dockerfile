@@ -65,6 +65,7 @@ RUN apk update && apk upgrade && apk add --no-cache boost-date_time bluez-libs l
 COPY rootfs /
 
 #openrc was here
+COPY --from=builder /run/openrc /run/openrc
 RUN touch /run/openrc/softlevel
 
 # Copy data for add-on
