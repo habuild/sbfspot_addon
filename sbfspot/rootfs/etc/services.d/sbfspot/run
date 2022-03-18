@@ -18,7 +18,7 @@ echo "PWD is current directory $(pwd)"
 cd / 
 
 echo "PWD is current directory $(pwd)"
-/etc/sbfspot/generateConfig.sh /etc/sbfspot/SBFspot.cfg /etc/sbfspot/SBFspotUpload.cfg /etc/sbfspot
+/etc/sbfspot/generateConfig.sh /etc/sbfspot/SBFspot.cfg /etc/sbfspot/SBFspotUpload.cfg 
 
 
 # ---- RUN ----
