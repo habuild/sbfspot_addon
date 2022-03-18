@@ -17,7 +17,7 @@ COPY rootfs /
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # install requirements
-RUN apk update && apk upgrade && apk add --no-cache git g++ make mysql-dev bluez-dev boost-dev curl-dev mosquitto-clients openrc mariadb-dev
+RUN apk update && apk upgrade && apk add --no-cache git g++ make mysql-dev bluez-dev boost-dev curl-dev tzdata mosquitto-clients openrc mariadb-dev
 
 # openrc changes
 RUN \
@@ -42,12 +42,12 @@ RUN mkdir -p /run/openrc && touch /run/openrc/softlevel
 # download and build SBFspot
 RUN \
     cd /tmp \
-    && git clone https://github.com/habuild/SBFspot.git . \
+    && git clone https://github.com/sbfspot/SBFspot.git . \
     && cd SBFspot \
-    && make mysql \
+    && make mariadb \
     && cd .. \
     && cd SBFspotUploadDaemon \
-    && make mysql
+    && make mariadb
     
 # runtinme container   
 FROM $BUILD_FROM
@@ -59,23 +59,24 @@ RUN \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN apk --no-cache add boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients openrc
+RUN apk update && apk upgrade && apk add --no-cache boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients openrc
 COPY rootfs /
 
 #openrc was here
+RUN touch /run/openrc/softlevel
 
 # Copy data for add-on
 
 RUN mkdir -p /etc/sbfspot
 
-COPY --from=builder /tmp/SBFspot/mysql/bin/SBFspot /tmp/SBFspot/mysql/bin/SBFspot
-COPY --from=builder /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon
+COPY --from=builder /tmp/SBFspot/mariadb/bin/SBFspot /tmp/SBFspot/mariadb/bin/SBFspot
+COPY --from=builder /tmp/SBFspotUploadDaemon/mariadb/bin/SBFspotUploadDaemon /tmp/SBFspotUploadDaemon/mariadb/bin/SBFspotUploadDaemon
 COPY --from=builder /tmp/SBFspot/date_time_zonespec.csv /tmp/SBFspot/date_time_zonespec.csv
 COPY --from=builder /tmp/SBFspot/TagList* /tmp/SBFspot/
 
 
-RUN cp /tmp/SBFspot/mysql/bin/SBFspot /etc/sbfspot
-RUN cp /tmp/SBFspotUploadDaemon/mysql/bin/SBFspotUploadDaemon /etc/sbfspot
+RUN cp /tmp/SBFspot/mariadb/bin/SBFspot /etc/sbfspot
+RUN cp /tmp/SBFspotUploadDaemon/mariadb/bin/SBFspotUploadDaemon /etc/sbfspot
 RUN cp /tmp/SBFspot/date_time_zonespec.csv /etc/sbfspot
 RUN cp /tmp/SBFspot/TagList* /etc/sbfspot
 
@@ -86,11 +87,11 @@ RUN chmod a+x /etc/sbfspot/generateConfig.sh /etc/sbfspot/openrc-restart-crashed
 # set shell
 RUN echo 'SHELL=/bin/bash' > /etc/crontabs/root
 # daily data SBFspot
-RUN echo '*/5 6-22 * * *    /SBFspot -v -ad1 -am0 -ae0 -mqtt > /dev/stdout' >> /etc/crontabs/root
+RUN echo '*/5 6-22 * * *    /etc/sbfspot/SBFspot -v -ad1 -am0 -ae0 -mqtt > /dev/stdout' >> /etc/crontabs/root
 # monthly data SBFspot
-RUN echo '55 05 * * *       /SBFspot -v -sp0 -ad0 -am1 -ae1 -finq > /dev/stdout' >> /etc/crontabs/root
+RUN echo '55 05 * * *       /etc/sbfspot/SBFspot -v -sp0 -ad0 -am1 -ae1 -finq > /dev/stdout' >> /etc/crontabs/root
 # openrc restart crashed services
-RUN echo '*/15 * * * *       /openrc-restart-crashed.sh -- SBFspotUploadDaemon.service > /dev/stdout' >> /etc/crontabs/root
+RUN echo '*/15 * * * *       /etc/sbfspot/openrc-restart-crashed.sh -- SBFspotUploadDaemon.service > /dev/stdout' >> /etc/crontabs/root
 # openrc status logging
 RUN echo '*/5 * * * *       rc-status -s > /dev/stdout' >> /etc/crontabs/root
 
