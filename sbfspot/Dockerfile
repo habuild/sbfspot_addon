@@ -59,7 +59,7 @@ RUN cp /tmp/SBFspotUploadDaemon/mariadb/bin/SBFspotUploadDaemon /etc/sbfspot
 RUN cp /tmp/SBFspot/date_time_zonespec.csv /etc/sbfspot
 RUN cp /tmp/SBFspot/TagList* /etc/sbfspot
 
-RUN chmod a+x /var/log/sbfspot/initial.log /etc/sbfspot/generateConfig.sh /etc/sbfspot/SBFspot /etc/sbfspot/SBFspotUploadDaemon /etc/sbfspot/SBFspot.default.cfg /etc/sbfspot/SBFspotUpload.default.cfg
+RUN chmod a+x /etc/sbfspot/taillog.sh /etc/sbfspot/generateConfig.sh /etc/sbfspot/SBFspot /etc/sbfspot/SBFspotUploadDaemon /etc/sbfspot/SBFspot.default.cfg /etc/sbfspot/SBFspotUpload.default.cfg
 
 
 # --- install cron ---
@@ -70,7 +70,7 @@ RUN echo '*/5 6-22 * * *    /etc/sbfspot/SBFspot -v -ad1 -am0 -ae0 -mqtt > /dev/
 # monthly data SBFspot
 RUN echo '55 05 * * *       /etc/sbfspot/SBFspot -v -sp0 -ad0 -am1 -ae1 -finq > /dev/stdout' >> /etc/crontabs/root
 # start SBFspotUpload 1 min after boot
-RUN echo '@reboot sleep 60 && /etc/sbfspot/SBFspotUploadDaemon -c /etc/sbfspot/SBFspotUpload.cfg' >> /etc/crontabs/root
+RUN echo '@reboot sleep 60 && /etc/sbfspot/SBFspotUploadDaemon -c /etc/sbfspot/SBFspotUpload.cfg > /dev/stdout' >> /etc/crontabs/root
 
 # Labels
 LABEL \
