@@ -304,5 +304,5 @@ EOL
 
 # create folders
 mkdir -p $CONFIG_OUTPUTPATH
-#mkdir -p $CONFIG_LOGDIR 
+mkdir -p $CONFIG_LOGDIR 
 # log here instead > /dev/stdout >> /proc/1/fd/1 # tail -fn1 /data/sbfspot/log/* > /dev/stdout
