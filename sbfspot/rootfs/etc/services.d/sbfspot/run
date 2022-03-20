@@ -31,7 +31,7 @@ echo 'Starting cron in foreground'
 /usr/sbin/crond -f
 
 echo 'Starting daemon'
-/etc/sbfpot/SBFspotUploadDaemon -c /etc/sbfspot/SBFspotUpload.cfg
+/etc/sbfspot/SBFspotUploadDaemon -c /etc/sbfspot/SBFspotUpload.cfg
 
 # add logging to HA logs
 echo 'Showing Logs in HA'
