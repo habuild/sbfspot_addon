@@ -7,4 +7,4 @@ echo [$(date)] INFO: SBFspotUpload Logging started > /data/sbfspot/log/fake.log
 
 # set tail to log out to HA log
 echo 'logging commenced'
-tail -fn1 /data/sbfspot/log/* 
+tail -n1 /data/sbfspot/log/* >> /proc/1fd/1
