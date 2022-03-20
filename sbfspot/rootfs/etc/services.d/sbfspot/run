@@ -35,4 +35,4 @@ echo 'Starting daemon'
 
 # add logging to HA logs
 echo 'Showing Logs in HA'
-tail -fn1 /data/sbfspot/log/* > /dev/stdout
+tail -fn1 /data/sbfspot/log/* > /dev/stdout >> /proc/1/fd/1
