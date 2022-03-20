@@ -70,7 +70,7 @@ RUN echo '*/5 6-22 * * *    /etc/sbfspot/SBFspot -v -ad1 -am0 -ae0 -mqtt > /dev/
 # monthly data SBFspot
 RUN echo '55 05 * * *       /etc/sbfspot/SBFspot -v -sp0 -ad0 -am1 -ae1 -finq > /dev/stdout' >> /etc/crontabs/root
 # start SBFspotUpload 1 min after boot
-RUN echo '@reboot sleep 60 && /etc/sbfspot/SBFspotUploadDaemon -c /etc/sbfspot/SBFspotUpload.cfg > /dev/stdout' >> /etc/crontabs/root
+RUN echo '@reboot sleep 60 && /etc/sbfspot/SBFspotUploadDaemon -c /etc/sbfspot/SBFspotUpload.cfg' >> /etc/crontabs/root
 # Log SBFspotUpload to HA logging window
 RUN echo '*/5 6-22 * * * /etc/sbfspot/taillog.sh > /dev/stdout' >> /etc/crontabs/root
 
