@@ -26,13 +26,12 @@ echo "PWD is current directory $(pwd)"
 #echo 'Starting daemon'
 #rc-service SBFspotUploadDaemon.service start
 
-# cron
-echo 'Starting cron in foreground'
-/usr/sbin/crond -f
-
 echo 'Starting daemon'
-/etc/sbfspot/SBFspotUploadDaemon -c /etc/sbfspot/SBFspotUpload.cfg
 
 # add logging to HA logs
 echo 'Showing Logs in HA'
 tail -fn1 /data/sbfspot/log/* > /dev/stdout >> /proc/1/fd/1
+
+# cron
+echo 'Starting cron in foreground'
+/usr/sbin/crond -f
