@@ -17,27 +17,7 @@ COPY rootfs /
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # install requirements
-RUN apk update && apk upgrade && apk add --no-cache git g++ make mysql-dev bluez-dev boost-dev curl-dev tzdata mosquitto-clients openrc mariadb-dev
-
-# openrc changes
-RUN \
-    # Tell openrc its running inside a container, till now that has meant LXC
-        sed -i 's/#rc_sys=""/rc_sys="lxc"/g' /etc/rc.conf &&\
-    # Tell openrc loopback and net are already there, since docker handles the networking
-        echo 'rc_provide="loopback net"' >> /etc/rc.conf &&\
-    # no need for loggers
-        sed -i 's/^#\(rc_logger="YES"\)$/\1/' /etc/rc.conf &&\
-    # can't get ttys unless you run the container in privileged mode
-        sed -i '/tty/d' /etc/inittab &&\
-    # can't set hostname since docker sets it
-        sed -i 's/hostname $opts/# hostname $opts/g' /etc/init.d/hostname &&\
-    # can't mount tmpfs since not privileged
-        sed -i 's/mount -t tmpfs/# mount -t tmpfs/g' /lib/rc/sh/init.sh &&\
-    # can't do cgroups
-        sed -i 's/cgroup_add_service /# cgroup_add_service /g' /lib/rc/sh/openrc-run.sh
-
-RUN rc-status
-RUN mkdir -p /run/openrc && touch /run/openrc/softlevel
+RUN apk update && apk upgrade && apk add --no-cache git g++ make mysql-dev bluez-dev boost-dev curl-dev tzdata mosquitto-clients mariadb-dev
 
 # download and build SBFspot
 RUN \
@@ -61,29 +41,8 @@ RUN \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN apk update && apk upgrade && apk add --no-cache boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients openrc
+RUN apk update && apk upgrade && apk add --no-cache boost-date_time bluez-libs libstdc++ tzdata mariadb-common mariadb-connector-c ncurses-libs libcurl mosquitto-clients
 COPY rootfs /
-
-#openrc was here
-# openrc changes
-RUN \
-    # Tell openrc its running inside a container, till now that has meant LXC
-        sed -i 's/#rc_sys=""/rc_sys="lxc"/g' /etc/rc.conf &&\
-    # Tell openrc loopback and net are already there, since docker handles the networking
-        echo 'rc_provide="loopback net"' >> /etc/rc.conf &&\
-    # no need for loggers
-        sed -i 's/^#\(rc_logger="YES"\)$/\1/' /etc/rc.conf &&\
-    # can't get ttys unless you run the container in privileged mode
-        sed -i '/tty/d' /etc/inittab &&\
-    # can't set hostname since docker sets it
-        sed -i 's/hostname $opts/# hostname $opts/g' /etc/init.d/hostname &&\
-    # can't mount tmpfs since not privileged
-        sed -i 's/mount -t tmpfs/# mount -t tmpfs/g' /lib/rc/sh/init.sh &&\
-    # can't do cgroups
-        sed -i 's/cgroup_add_service /# cgroup_add_service /g' /lib/rc/sh/openrc-run.sh
-        
-COPY --from=builder /run/openrc/softlevel /run/openrc/softlevel
-RUN touch /run/openrc/softlevel
 
 # Copy data for add-on
 
@@ -100,7 +59,7 @@ RUN cp /tmp/SBFspotUploadDaemon/mariadb/bin/SBFspotUploadDaemon /etc/sbfspot
 RUN cp /tmp/SBFspot/date_time_zonespec.csv /etc/sbfspot
 RUN cp /tmp/SBFspot/TagList* /etc/sbfspot
 
-RUN chmod a+x /etc/sbfspot/generateConfig.sh /etc/sbfspot/openrc-restart-crashed.sh /etc/sbfspot/SBFspot /etc/sbfspot/SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /etc/sbfspot/SBFspot.default.cfg /etc/sbfspot/SBFspotUpload.default.cfg
+RUN chmod a+x /etc/sbfspot/generateConfig.sh /etc/sbfspot/SBFspot /etc/sbfspot/SBFspotUploadDaemon /etc/init.d/SBFspotUploadDaemon.service /etc/sbfspot/SBFspot.default.cfg /etc/sbfspot/SBFspotUpload.default.cfg
 
 
 # --- install cron ---
@@ -110,13 +69,8 @@ RUN echo 'SHELL=/bin/bash' > /etc/crontabs/root
 RUN echo '*/5 6-22 * * *    /etc/sbfspot/SBFspot -v -ad1 -am0 -ae0 -mqtt > /dev/stdout' >> /etc/crontabs/root
 # monthly data SBFspot
 RUN echo '55 05 * * *       /etc/sbfspot/SBFspot -v -sp0 -ad0 -am1 -ae1 -finq > /dev/stdout' >> /etc/crontabs/root
-# openrc restart crashed services
-RUN echo '*/15 * * * *       /etc/sbfspot/openrc-restart-crashed.sh -- SBFspotUploadDaemon.service > /dev/stdout' >> /etc/crontabs/root
-# openrc status logging
-RUN echo '*/5 * * * *       rc-status -s > /dev/stdout' >> /etc/crontabs/root
-
-# install service
-RUN rc-update add SBFspotUploadDaemon.service default
+# start SBFspotUpload 1 min after boot
+RUN echo '@reboot sleep 60 && /etc/sbfspot/SBFspotUploadDaemon -c /etc/sbfspot/SBFspotUpload.cfg' >> /etc/crontabs/root
 
 # Labels
 LABEL \
