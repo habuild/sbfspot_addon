@@ -28,9 +28,9 @@ echo "PWD is current directory $(pwd)"
 
 echo 'Starting daemon'
 
-# add logging to HA logs
-echo 'Showing Logs in HA'
-/etc/sbfspot/taillog.sh
+# add logging to HA logs #In cronjob
+#echo 'Showing Logs in HA'
+#/etc/sbfspot/taillog.sh
 
 # cron
 echo 'Starting cron in foreground'
