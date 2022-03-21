@@ -8,5 +8,5 @@ cd /
 sleep 45
 
 # set tail to log out to HA log
-echo 'logging commenced'
+echo '[SBFspot Upload Log Latest]'
 tail -n1 /data/sbfspot/log/* >> /proc/1/fd/1
