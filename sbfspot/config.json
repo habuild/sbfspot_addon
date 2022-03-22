@@ -13,7 +13,7 @@
   ],
   "options": {
     "BTAddress": "",
-    "Password": "passwd",
+    "Password": "",
     "MIS_Enabled": 0,
     "Plantname": "MyPlant",
     "OutputPath": "/data/sbfspot/%Y",
