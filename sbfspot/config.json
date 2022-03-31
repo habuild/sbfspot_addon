@@ -6,6 +6,7 @@
   "url": "https://github.com/habuild/sbfspot_addon/tree/main/sbfspot",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "options": {
+    "MQTT_ENABLE": "1"
   },
   "schema": {
     "BTAddress": "str",
